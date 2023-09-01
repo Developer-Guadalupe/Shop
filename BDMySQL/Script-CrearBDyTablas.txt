@@ -1,0 +1,148 @@
+DROP DATABASE `web_shop_tracker`;
+
+CREATE DATABASE  IF NOT EXISTS `web_shop_tracker` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `web_shop_tracker`;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE users (
+    `user_id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255),
+    `email` VARCHAR(255),
+    `password` VARCHAR(255),
+    `registration_date` VARCHAR(50),
+    `rol` VARCHAR(50),
+    PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE categories (
+    `category_id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100),
+     PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE products (
+    `product_id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255),
+    `description` VARCHAR(255),
+    `price` INT,
+    `stock` INT,
+    `category_id` INT,
+    `imagen_url` VARCHAR(255),
+     PRIMARY KEY (`product_id`),
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE orders (
+    `order_id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT,
+    `date` VARCHAR(50),
+    `total_amount` INT,
+    `estado` VARCHAR(50),
+    PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `items orders`
+--
+
+DROP TABLE IF EXISTS `itemsOrders`;
+CREATE TABLE itemsOrders (
+    `order_id` INT NOT NULL AUTO_INCREMENT,
+    `product_id` INT,
+    `amount` INT,
+    `unit_price` INT,
+    PRIMARY KEY (`order_id`),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `reviews`
+--
+
+DROP TABLE IF EXISTS `reviews`;
+CREATE TABLE reviews (
+	`review_id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT,
+    `product_id` INT,
+    `qualification` INT,
+    `text_review` VARCHAR(255),
+    `review_date` VARCHAR(50),
+    PRIMARY KEY (`review_id`),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `bag`
+--
+
+DROP TABLE IF EXISTS `bag`;
+CREATE TABLE bag (
+    `bag_id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT,
+    `product_id` INT,
+	PRIMARY KEY (`bag_id`),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `itemsBag`
+--
+
+DROP TABLE IF EXISTS `itemsBag`;
+CREATE TABLE itemsBag (
+    `seeBag_id` INT NOT NULL AUTO_INCREMENT,
+    `bag_id` INT,
+    `product_id` INT,
+    `amount` INT,
+    PRIMARY KEY (`seeBag_id`),
+    FOREIGN KEY (bag_id) REFERENCES bag(bag_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `wishlist`
+--
+
+DROP TABLE IF EXISTS `wishlist`;
+CREATE TABLE wishlist (
+    `wishlist_id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT,
+    PRIMARY KEY (`wishlist_id`),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `wish list items`
+--
+
+DROP TABLE IF EXISTS `itemsWishlist`;
+CREATE TABLE itemsWishlist (
+    `itemsWishlist_id` INT NOT NULL AUTO_INCREMENT,
+    `wishlist_id` INT,
+    `product_id` INT,
+    PRIMARY KEY (`itemsWishlist_id`),
+    FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+

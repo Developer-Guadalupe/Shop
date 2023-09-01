@@ -1,0 +1,3 @@
+CREATE USER 'webshop'@'localhost' IDENTIFIED BY 'webshop';
+
+GRANT ALL PRIVILEGES ON * . * TO 'webshop'@'localhost';
